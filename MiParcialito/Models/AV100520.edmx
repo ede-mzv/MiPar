@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AV100520Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cursos">
+          <Key>
+            <PropertyRef Name="cursoID" />
+          </Key>
+          <Property Name="cursoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombreCurso" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="idDocente" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="docentes">
+          <Key>
+            <PropertyRef Name="idDocente" />
+          </Key>
+          <Property Name="idDocente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="inscripciones">
+          <Key>
+            <PropertyRef Name="idInscripcion" />
+          </Key>
+          <Property Name="idInscripcion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cursoID" Type="int" Nullable="false" />
+          <Property Name="idUser" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="idRoles" />
+          </Key>
+          <Property Name="idRoles" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="status">
+          <Key>
+            <PropertyRef Name="idStatus" />
+          </Key>
+          <Property Name="idStatus" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="idUser" />
+          </Key>
+          <Property Name="idUser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="edad" Type="int" Nullable="false" />
+          <Property Name="fecha_nacimiento" Type="date" Nullable="false" />
+          <Property Name="idroles" Type="int" Nullable="false" />
+          <Property Name="idStatus" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__cursos__idDocent__17F790F9">
+          <End Role="docentes" Type="Self.docentes" Multiplicity="1" />
+          <End Role="cursos" Type="Self.cursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="docentes">
+              <PropertyRef Name="idDocente" />
+            </Principal>
+            <Dependent Role="cursos">
+              <PropertyRef Name="idDocente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__inscripci__curso__22751F6C">
+          <End Role="cursos" Type="Self.cursos" Multiplicity="1" />
+          <End Role="inscripciones" Type="Self.inscripciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cursos">
+              <PropertyRef Name="cursoID" />
+            </Principal>
+            <Dependent Role="inscripciones">
+              <PropertyRef Name="cursoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__inscripci__idUse__236943A5">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="inscripciones" Type="Self.inscripciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="inscripciones">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__user__idroles__1EA48E88">
+          <End Role="roles" Type="Self.roles" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="idRoles" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="idroles" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__user__idStatus__1F98B2C1">
+          <End Role="status" Type="Self.status" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="idStatus" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="idStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AV100520ModelStoreContainer">
+          <EntitySet Name="cursos" EntityType="Self.cursos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="docentes" EntityType="Self.docentes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="inscripciones" EntityType="Self.inscripciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="status" EntityType="Self.status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__cursos__idDocent__17F790F9" Association="Self.FK__cursos__idDocent__17F790F9">
+            <End Role="docentes" EntitySet="docentes" />
+            <End Role="cursos" EntitySet="cursos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__inscripci__curso__22751F6C" Association="Self.FK__inscripci__curso__22751F6C">
+            <End Role="cursos" EntitySet="cursos" />
+            <End Role="inscripciones" EntitySet="inscripciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK__inscripci__idUse__236943A5" Association="Self.FK__inscripci__idUse__236943A5">
+            <End Role="user" EntitySet="user" />
+            <End Role="inscripciones" EntitySet="inscripciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK__user__idroles__1EA48E88" Association="Self.FK__user__idroles__1EA48E88">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+          <AssociationSet Name="FK__user__idStatus__1F98B2C1" Association="Self.FK__user__idStatus__1F98B2C1">
+            <End Role="status" EntitySet="status" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AV100520Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cursos">
+          <Key>
+            <PropertyRef Name="cursoID" />
+          </Key>
+          <Property Name="cursoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombreCurso" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idDocente" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="docentes" Relationship="Self.FK__cursos__idDocent__17F790F9" FromRole="cursos" ToRole="docentes" />
+          <NavigationProperty Name="inscripciones" Relationship="Self.FK__inscripci__curso__22751F6C" FromRole="cursos" ToRole="inscripciones" />
+        </EntityType>
+        <EntityType Name="docentes">
+          <Key>
+            <PropertyRef Name="idDocente" />
+          </Key>
+          <Property Name="idDocente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="cursos" Relationship="Self.FK__cursos__idDocent__17F790F9" FromRole="docentes" ToRole="cursos" />
+        </EntityType>
+        <EntityType Name="inscripciones">
+          <Key>
+            <PropertyRef Name="idInscripcion" />
+          </Key>
+          <Property Name="idInscripcion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cursoID" Type="Int32" Nullable="false" />
+          <Property Name="idUser" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="cursos" Relationship="Self.FK__inscripci__curso__22751F6C" FromRole="inscripciones" ToRole="cursos" />
+          <NavigationProperty Name="user" Relationship="Self.FK__inscripci__idUse__236943A5" FromRole="inscripciones" ToRole="user" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="idRoles" />
+          </Key>
+          <Property Name="idRoles" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="Self.FK__user__idroles__1EA48E88" FromRole="roles" ToRole="user" />
+        </EntityType>
+        <EntityType Name="status">
+          <Key>
+            <PropertyRef Name="idStatus" />
+          </Key>
+          <Property Name="idStatus" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="user" Relationship="Self.FK__user__idStatus__1F98B2C1" FromRole="status" ToRole="user" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="idUser" />
+          </Key>
+          <Property Name="idUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="edad" Type="Int32" Nullable="false" />
+          <Property Name="fecha_nacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="idroles" Type="Int32" Nullable="false" />
+          <Property Name="idStatus" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="inscripciones" Relationship="Self.FK__inscripci__idUse__236943A5" FromRole="user" ToRole="inscripciones" />
+          <NavigationProperty Name="roles" Relationship="Self.FK__user__idroles__1EA48E88" FromRole="user" ToRole="roles" />
+          <NavigationProperty Name="status" Relationship="Self.FK__user__idStatus__1F98B2C1" FromRole="user" ToRole="status" />
+        </EntityType>
+        <Association Name="FK__cursos__idDocent__17F790F9">
+          <End Role="docentes" Type="Self.docentes" Multiplicity="1" />
+          <End Role="cursos" Type="Self.cursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="docentes">
+              <PropertyRef Name="idDocente" />
+            </Principal>
+            <Dependent Role="cursos">
+              <PropertyRef Name="idDocente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__inscripci__curso__22751F6C">
+          <End Role="cursos" Type="Self.cursos" Multiplicity="1" />
+          <End Role="inscripciones" Type="Self.inscripciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cursos">
+              <PropertyRef Name="cursoID" />
+            </Principal>
+            <Dependent Role="inscripciones">
+              <PropertyRef Name="cursoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__inscripci__idUse__236943A5">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="inscripciones" Type="Self.inscripciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="inscripciones">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__user__idroles__1EA48E88">
+          <End Role="roles" Type="Self.roles" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="idRoles" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="idroles" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__user__idStatus__1F98B2C1">
+          <End Role="status" Type="Self.status" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="idStatus" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="idStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AV100520Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cursos" EntityType="Self.cursos" />
+          <EntitySet Name="docentes" EntityType="Self.docentes" />
+          <EntitySet Name="inscripciones" EntityType="Self.inscripciones" />
+          <EntitySet Name="roles" EntityType="Self.roles" />
+          <EntitySet Name="status" EntityType="Self.status" />
+          <EntitySet Name="user" EntityType="Self.user" />
+          <AssociationSet Name="FK__cursos__idDocent__17F790F9" Association="Self.FK__cursos__idDocent__17F790F9">
+            <End Role="docentes" EntitySet="docentes" />
+            <End Role="cursos" EntitySet="cursos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__inscripci__curso__22751F6C" Association="Self.FK__inscripci__curso__22751F6C">
+            <End Role="cursos" EntitySet="cursos" />
+            <End Role="inscripciones" EntitySet="inscripciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK__inscripci__idUse__236943A5" Association="Self.FK__inscripci__idUse__236943A5">
+            <End Role="user" EntitySet="user" />
+            <End Role="inscripciones" EntitySet="inscripciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK__user__idroles__1EA48E88" Association="Self.FK__user__idroles__1EA48E88">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+          <AssociationSet Name="FK__user__idStatus__1F98B2C1" Association="Self.FK__user__idStatus__1F98B2C1">
+            <End Role="status" EntitySet="status" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AV100520ModelStoreContainer" CdmEntityContainer="AV100520Entities">
+          <EntitySetMapping Name="cursos">
+            <EntityTypeMapping TypeName="AV100520Model.cursos">
+              <MappingFragment StoreEntitySet="cursos">
+                <ScalarProperty Name="cursoID" ColumnName="cursoID" />
+                <ScalarProperty Name="nombreCurso" ColumnName="nombreCurso" />
+                <ScalarProperty Name="idDocente" ColumnName="idDocente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="docentes">
+            <EntityTypeMapping TypeName="AV100520Model.docentes">
+              <MappingFragment StoreEntitySet="docentes">
+                <ScalarProperty Name="idDocente" ColumnName="idDocente" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="inscripciones">
+            <EntityTypeMapping TypeName="AV100520Model.inscripciones">
+              <MappingFragment StoreEntitySet="inscripciones">
+                <ScalarProperty Name="idInscripcion" ColumnName="idInscripcion" />
+                <ScalarProperty Name="cursoID" ColumnName="cursoID" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="AV100520Model.roles">
+              <MappingFragment StoreEntitySet="roles">
+                <ScalarProperty Name="idRoles" ColumnName="idRoles" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="status">
+            <EntityTypeMapping TypeName="AV100520Model.status">
+              <MappingFragment StoreEntitySet="status">
+                <ScalarProperty Name="idStatus" ColumnName="idStatus" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user">
+            <EntityTypeMapping TypeName="AV100520Model.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="edad" ColumnName="edad" />
+                <ScalarProperty Name="fecha_nacimiento" ColumnName="fecha_nacimiento" />
+                <ScalarProperty Name="idroles" ColumnName="idroles" />
+                <ScalarProperty Name="idStatus" ColumnName="idStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
